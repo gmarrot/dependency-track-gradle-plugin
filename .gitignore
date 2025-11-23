@@ -1,0 +1,10 @@
+# Commons
+.DS_Store
+
+# IDE
+.cursor
+.idea
+
+# Gradle
+.gradle
+build
