@@ -1,5 +1,10 @@
 pluginManagement {
     includeBuild("build-logic")
+
+    repositories {
+        mavenLocal()
+        gradlePluginPortal()
+    }
 }
 
 plugins {
@@ -9,4 +14,7 @@ plugins {
 
 rootProject.name = "dependency-track-gradle-plugin"
 
-include("plugin")
+include(
+    "plugin",
+    "sample",
+)

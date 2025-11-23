@@ -3,9 +3,23 @@ package com.betomorrow.gradle.dependencytrack
 import com.betomorrow.gradle.dependencytrack.tasks.DependencyTrackUploadTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import java.net.URI
 
 class DependencyTrackPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        project.tasks.register("uploadToDependencyTrack", DependencyTrackUploadTask::class.java)
+        val extensions = project.extensions.create("dependencyTrack", DependencyTrackExtensions::class.java, project)
+
+        project.tasks.register("uploadToDependencyTrack", DependencyTrackUploadTask::class.java) { task ->
+            task.apiHost.set(extensions.apiHost.map { URI.create(it) })
+            task.apiKey.set(extensions.apiKey)
+
+            task.projectId.set(extensions.projectId)
+            task.projectName.set(extensions.projectName)
+            task.projectVersion.set(extensions.projectVersion)
+
+            task.groupName.set(extensions.groupName)
+
+            task.sbomFile.set(extensions.sbomFile)
+        }
     }
 }
