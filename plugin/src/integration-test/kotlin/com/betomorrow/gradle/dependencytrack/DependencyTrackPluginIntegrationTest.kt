@@ -14,10 +14,12 @@ internal class DependencyTrackPluginIntegrationTest {
 
     private val buildFile by lazy { projectDir.resolve("build.gradle") }
     private val settingsFile by lazy { projectDir.resolve("settings.gradle") }
+    private val sbomFile by lazy { projectDir.resolve("bom.json") }
 
     @BeforeEach
     fun setup() {
         settingsFile.writeText("")
+        sbomFile.writeText("")
     }
 
     @Test
@@ -26,6 +28,13 @@ internal class DependencyTrackPluginIntegrationTest {
             """
             plugins {
                 id('com.betomorrow.dependency-track')
+            }
+
+            dependencyTrack {
+                apiHost = 'http://localhost:8081'
+                apiKey = 'API_KEY'
+
+                sbomFile = file("bom.json")
             }
             """.trimIndent(),
         )
@@ -37,8 +46,12 @@ internal class DependencyTrackPluginIntegrationTest {
                 .withArguments("uploadToDependencyTrack", "--info", "--stacktrace")
                 .withProjectDir(projectDir)
 
-        val result = runner.build()
+        val firstRunResult = runner.build()
 
-        assertEquals(TaskOutcome.SUCCESS, result.task(":uploadToDependencyTrack")?.outcome)
+        assertEquals(TaskOutcome.SUCCESS, firstRunResult.task(":uploadToDependencyTrack")?.outcome)
+
+        val secondRunResult = runner.build()
+
+        assertEquals(TaskOutcome.UP_TO_DATE, secondRunResult.task(":uploadToDependencyTrack")?.outcome)
     }
 }

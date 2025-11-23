@@ -18,6 +18,8 @@ repositories {
 dependencies {
     implementation(libs.kotlin.stdlib)
 
+    implementation(libs.bundles.feign)
+
     testImplementation(libs.kotlin.test.junit5)
     integrationTestImplementation(libs.kotlin.test.junit5)
 }

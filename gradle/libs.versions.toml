@@ -1,9 +1,12 @@
 [versions]
 kotlin = "1.9.25"
+feign = "13.6"
 
 [libraries]
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
+feign-core = { module = "io.github.openfeign:feign-core", version.ref = "feign" }
+feign-gson = { module = "io.github.openfeign:feign-gson", version.ref = "feign" }
 
 dependency-versions-gradle = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.51.0" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -11,3 +14,6 @@ ktlint-gradle = { module = "org.jlleitschuh.gradle:ktlint-gradle", version = "12
 
 [plugins]
 cyclonedx-bom = { id = "org.cyclonedx.bom", version = "2.3.1" }
+
+[bundles]
+feign = ["feign-core", "feign-gson"]
